@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <BrowserRouter>
+        <Switch>
+            <Route path="/admin" render={props => <AdminLayout {...props} />} />
+            <Redirect from="/" to="/admin/dashboard" />
+        </Switch>
+    </BrowserRouter>,
   document.getElementById('root')
 );
 

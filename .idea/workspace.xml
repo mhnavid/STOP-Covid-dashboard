@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f85aa5da-cfab-4c77-ba48-bd74134bb0ca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Card/Card.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Footer/Footer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Navbars/AdminNavLinks.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Navbars/AdminNavbar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/FormInputs/FormInputs.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Tables/Tables.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/Reports.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ApplicationName/ApplicationName.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ApplicationName/ApplicationName.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Sidebar/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sidebar/Sidebar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/Admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/Admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +89,7 @@
       <workItem from="1592193462521" duration="7424000" />
       <workItem from="1592373531181" duration="12334000" />
       <workItem from="1592632102287" duration="6772000" />
-      <workItem from="1592801754870" duration="741000" />
+      <workItem from="1592801754870" duration="9316000" />
     </task>
     <task id="LOCAL-00001" summary="routes file added">
       <created>1592119267991</created>
@@ -111,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592197704705</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="dashboard, navbar, footer added">
+      <created>1592802595312</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1592802595312</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,17 +121,18 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="routes file added" />
     <MESSAGE value="assets added, sidebar, dashboard added" />
-    <option name="LAST_COMMIT_MESSAGE" value="assets added, sidebar, dashboard added" />
+    <MESSAGE value="dashboard, navbar, footer added" />
+    <option name="LAST_COMMIT_MESSAGE" value="dashboard, navbar, footer added" />
   </component>
   <component name="WindowStateProjectService">
     <state x="499" y="165" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1592126110922">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="499" y="165" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.834@0.0.1536.834" timestamp="1592126110922" />
-    <state x="393" y="12" key="CommitChangelistDialog2" timestamp="1592197703238">
+    <state x="393" y="12" key="CommitChangelistDialog2" timestamp="1592802593475">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="393" y="12" key="CommitChangelistDialog2/0.0.1536.834@0.0.1536.834" timestamp="1592197703238" />
+    <state x="393" y="12" key="CommitChangelistDialog2/0.0.1536.834@0.0.1536.834" timestamp="1592802593475" />
     <state x="549" y="173" key="FileChooserDialogImpl" timestamp="1592118301772">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
@@ -155,10 +157,10 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state width="1515" height="209" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1592646755757" />
-    <state x="0" y="151" key="Vcs.Push.Dialog.v2" timestamp="1592197723909">
+    <state x="0" y="151" key="Vcs.Push.Dialog.v2" timestamp="1592802599596">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="0" y="151" key="Vcs.Push.Dialog.v2/0.0.1536.834@0.0.1536.834" timestamp="1592197723909" />
+    <state x="0" y="151" key="Vcs.Push.Dialog.v2/0.0.1536.834@0.0.1536.834" timestamp="1592802599596" />
     <state x="425" y="189" key="run.anything.popup" timestamp="1592197037443">
       <screen x="0" y="0" width="1536" height="834" />
     </state>

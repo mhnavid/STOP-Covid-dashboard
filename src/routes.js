@@ -1,4 +1,5 @@
 import Dashboard from "./views/Dashboard";
+import Reports from "./views/Reports";
 
 const dashboardRoutes = [
   {
@@ -12,7 +13,7 @@ const dashboardRoutes = [
     path: "/reports",
     name: "Reports",
     icon: "pe-7s-graph",
-    component: "Dashboard",
+    component: Reports,
     layout: "/admin"
   },
   {

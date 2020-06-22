@@ -7,6 +7,8 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import { style } from "../variables/Variables.js";
 
 import routes from "../routes.js";
+import AdminNavbar from "../components/Navbars/AdminNavbar";
+import Footer from "../components/Footer/Footer";
 
 class Admin extends Component {
   constructor(props) {
@@ -147,12 +149,12 @@ class Admin extends Component {
                  routes={routes}
                  color={this.state.color}/>
         <div id="main-panel" className="main-panel" ref="mainPanel">
-        {/*  <AdminNavbar*/}
-        {/*      {...this.props}*/}
-        {/*      brandText={this.getBrandText(this.props.location.pathname)}*/}
-        {/*  />*/}
+          <AdminNavbar
+              {...this.props}
+              brandText={this.getBrandText(this.props.location.pathname)}
+          />
           <Switch>{this.getRoutes(routes)}</Switch>
-        {/*/!*  <Footer />*!/*/}
+          <Footer />
         {/*/!*  <FixedPlugin*!/*/}
         {/*/!*    handleImageClick={this.handleImageClick}*!/*/}
         {/*/!*    handleColorClick={this.handleColorClick}*!/*/}

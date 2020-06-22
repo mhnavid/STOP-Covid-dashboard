@@ -9,6 +9,9 @@ import "./assets/sass/light-bootstrap-dashboard-react.scss?v=1.3.0";
 import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 
+import 'react-calendar/dist/Calendar.css';
+import 'font-awesome/css/font-awesome.min.css';
+
 import AdminLayout from "./layouts/Admin.js";
 
 ReactDOM.render(

@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 
 import logo from "../../assets/img/reactlogo.png";
 import ApplicationName from "../ApplicationName/ApplicationName";
+import AdminNavbarLinks from "../Navbars/AdminNavLinks";
+import {MenuItem, NavDropdown} from "react-bootstrap";
 
 class Sidebar extends Component {
   constructor(props) {
@@ -50,12 +52,11 @@ class Sidebar extends Component {
             <ApplicationName/>
           </div>
           <ul className="nav">
-            {/*{this.state.width <= 991 ? <AdminNavbarLinks /> : null}*/}
+            {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
             {this.props.routes.map((prop, key) => {
               if (!prop.redirect)
                 return (
                   <li
-                      style={{ width:"100%" }}
                       className={
                         this.activeRoute(prop.layout + prop.path)
                       }

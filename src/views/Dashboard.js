@@ -4,14 +4,13 @@ import { Grid, Row, Col } from "react-bootstrap";
 import Calendar from "react-calendar";
 
 import { StatsCard } from "../components/StatsCard/StatsCard.js";
-// import { Tasks } from "components/Tasks/Tasks.jsx";
 import {
   dataPie,
   legendPie,
-  dataSales,
-  optionsSales,
-  responsiveSales,
-  legendSales,
+  // dataSales,
+  // optionsSales,
+  // responsiveSales,
+  // legendSales,
   dataBar,
   optionsBar,
   responsiveBar,

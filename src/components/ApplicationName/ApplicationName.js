@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Grid, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 
 function ApplicationName() {
     return (

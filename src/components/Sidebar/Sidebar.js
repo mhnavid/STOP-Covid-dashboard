@@ -5,7 +5,18 @@ import { NavLink } from "react-router-dom";
 import logo from "../../assets/img/reactlogo.png";
 import ApplicationName from "../ApplicationName/ApplicationName";
 import AdminNavbarLinks from "../Navbars/AdminNavLinks";
-import {MenuItem, NavDropdown} from "react-bootstrap";
+import { Menu } from 'antd';
+import {
+  AppstoreOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  PieChartOutlined,
+  DesktopOutlined,
+  ContainerOutlined,
+  MailOutlined,
+} from '@ant-design/icons';
+
+const { SubMenu } = Menu;
 
 class Sidebar extends Component {
   constructor(props) {

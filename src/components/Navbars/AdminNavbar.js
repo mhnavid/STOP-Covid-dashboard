@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Navbar} from "react-bootstrap";
 
 import AdminNavbarLinks from "./AdminNavLinks";
 

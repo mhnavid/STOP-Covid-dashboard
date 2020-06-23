@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import UserImage from '../../assets/img/faces/face-0.jpg';
 import {
     Button,
-    ButtonToolbar, Image,
+    Image,
     MenuItem,
     Nav,
     Navbar,

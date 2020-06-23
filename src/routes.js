@@ -1,5 +1,6 @@
 import Dashboard from "./views/Dashboard";
 import Reports from "./views/Reports";
+import ImageBank from "./views/ImageBank";
 
 const dashboardRoutes = [
   {
@@ -20,7 +21,7 @@ const dashboardRoutes = [
     path: "/image-bank",
     name: "Image Bank",
     icon: "pe-7s-star",
-    component: "Dashboard",
+    component: ImageBank,
     layout: "/admin"
   },
   {

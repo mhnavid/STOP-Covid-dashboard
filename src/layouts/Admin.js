@@ -42,8 +42,7 @@ class Admin extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for
-          every web developer.
+          Welcome to <b>HeadBlocks</b>
         </div>
       ),
       level: level,
@@ -142,6 +141,7 @@ class Admin extends Component {
     }
   }
   render() {
+    console.log(this.getBrandText(this.props.location.pathname))
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />

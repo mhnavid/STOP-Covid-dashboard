@@ -5,24 +5,14 @@ import { NavLink } from "react-router-dom";
 import logo from "../../assets/img/reactlogo.png";
 import ApplicationName from "../ApplicationName/ApplicationName";
 import AdminNavbarLinks from "../Navbars/AdminNavLinks";
-import { Menu } from 'antd';
-import {
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
-} from '@ant-design/icons';
-
-const { SubMenu } = Menu;
+import {MenuItem, NavDropdown} from "react-bootstrap";
 
 class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: window.innerWidth
+      width: window.innerWidth,
+      collapse:false
     };
   }
   activeRoute(routeName) {
@@ -34,6 +24,11 @@ class Sidebar extends Component {
   componentDidMount() {
     this.updateDimensions();
     window.addEventListener("resize", this.updateDimensions.bind(this));
+  }
+  handleDropdown(){
+    this.setState({
+      collapse: !this.state.collapse
+    });
   }
   render() {
     return (
@@ -63,26 +58,39 @@ class Sidebar extends Component {
             <ApplicationName/>
           </div>
           <ul className="nav">
+            {/*<NavDropdown*/}
+            {/*    eventKey={3}*/}
+            {/*    title="Dropdown"*/}
+            {/*    id="basic-nav-dropdown"*/}
+            {/*    aria-expanded="true">*/}
+            {/*  <MenuItem eventKey={3.1}>Action</MenuItem>*/}
+            {/*  <MenuItem eventKey={3.2}>Another action</MenuItem>*/}
+            {/*  <MenuItem eventKey={3.3}>Something else here</MenuItem>*/}
+            {/*  <MenuItem divider />*/}
+            {/*  <MenuItem eventKey={3.4}>Separated link</MenuItem>*/}
+            {/*</NavDropdown>*/}
+
             {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
             {this.props.routes.map((prop, key) => {
-              if (!prop.redirect)
+              if (!prop.redirect) {
                 return (
-                  <li
-                      className={
-                        this.activeRoute(prop.layout + prop.path)
-                      }
-                      key={key}
-                  >
-                    <NavLink
-                      to={prop.layout + prop.path}
-                      className="nav-link"
-                      activeClassName="active"
+                    <li
+                        className={
+                          this.activeRoute(prop.layout + prop.path)
+                        }
+                        key={key}
                     >
-                      <i className={prop.icon} />
-                      <p>{prop.name}</p>
-                    </NavLink>
-                  </li>
+                      <NavLink
+                          to={prop.layout + prop.path}
+                          className="nav-link"
+                          activeClassName="active"
+                      >
+                        <i className={prop.icon} />
+                        <p>{prop.name}</p>
+                      </NavLink>
+                    </li>
                 );
+              }
               return null;
             })}
           </ul>

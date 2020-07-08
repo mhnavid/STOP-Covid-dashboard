@@ -1,6 +1,7 @@
 import Dashboard from "./views/Dashboard";
 import Reports from "./views/Reports";
 import ImageBank from "./views/ImageBank";
+import Visualization from "./views/Visualization";
 
 const dashboardRoutes = [
   {
@@ -28,7 +29,7 @@ const dashboardRoutes = [
     path: "/visualization",
     name: "Visualization",
     icon: "pe-7s-settings",
-    component: "Dashboard",
+    component: Visualization,
     layout: "/admin"
   },
 ];

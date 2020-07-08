@@ -96,6 +96,7 @@ class Dashboard extends Component {
                     <div
                         id="chartPreferences"
                         className="ct-chart ct-perfect-fourth"
+                        style={{fontSize:"10px"}}
                     >
                       <ChartistGraph data={dataPie} type="Pie" />
                     </div>

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Col, Grid, Row} from "react-bootstrap";
+import {Button, Col, ControlLabel, FormControl, FormGroup, Grid, Row} from "react-bootstrap";
 import Card from "../components/Card/Card";
 import FormInputs from "../components/FormInputs/FormInputs";
 import Tables from "../components/Tables/Tables";
@@ -10,33 +10,56 @@ class Reports extends Component {
             <div className="content">
                 <Grid>
                     <Row>
-                        <Col md={8}>
+                        <Col>
                             <Card
                                 content={
                                     <form>
-                                        <FormInputs
-                                            ncols={["col-md-5"]}
-                                            properties={[
-                                                {
-                                                    label:"From Date",
-                                                    type:"Date",
-                                                    placeholder:"From Date"
-                                                }
-                                            ]}
-                                        />
-                                        <FormInputs
-                                            ncols={["col-md-5"]}
-                                            properties={[
-                                                {
-                                                    label:"To Date",
-                                                    type:"Date",
-                                                    placeholder:"From Date"
-                                                }
-                                            ]}
-                                        />
-                                        <Button bsStyle="warning btn-fill" type="submit">
-                                            Generate Report
-                                        </Button>
+                                        <Row>
+                                            <Col md={6}>
+                                                <FormInputs
+                                                    ncols={["col-md-10"]}
+                                                    properties={[
+                                                        {
+                                                            label:"From Date",
+                                                            type:"Date",
+                                                            placeholder:"From Date"
+                                                        }
+                                                    ]}
+                                                />
+                                            </Col>
+                                            <Col md={4}>
+                                                <FormGroup controlId="formControlsSelect">
+                                                    <ControlLabel>Select</ControlLabel>
+                                                    <FormControl componentClass="select" placeholder="select">
+                                                        <option value="1">All</option>
+                                                        <option value="2">Musked Faces</option>
+                                                        <option value="3">Non Musked</option>
+                                                        <option value="4">Social Distancing</option>
+                                                    </FormControl>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col md={6}>
+                                                <FormInputs
+                                                    ncols={["col-md-10"]}
+                                                    properties={[
+                                                        {
+                                                            label:"To Date",
+                                                            type:"Date",
+                                                            placeholder:"From Date"
+                                                        }
+                                                    ]}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col md={8}>
+                                                <Button bsStyle="warning btn-fill" type="submit">
+                                                    Generate Report
+                                                </Button>
+                                            </Col>
+                                        </Row>
                                     </form>
                                 }
                             />

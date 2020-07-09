@@ -141,7 +141,6 @@ class Admin extends Component {
     }
   }
   render() {
-    console.log(this.getBrandText(this.props.location.pathname))
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />

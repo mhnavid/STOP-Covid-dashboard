@@ -12,7 +12,7 @@ class Visualization extends Component {
         super(props);
         this.state = {
             "countryList":[],
-            "selectedCountry":"",
+            "selectedCountry":"Bangladesh_cases",
             "allData":[],
             "worldSituationData":[],
             "worldSituationChartShow":false,
@@ -20,22 +20,23 @@ class Visualization extends Component {
     }
     componentDidMount() {
         this.handleWorldSituationDataRequest();
-        fetch("https://app.katanaml.io/katana-ml/api/v1.0/forecast/covid19/countries")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    result.map((val)=>{
-                        this.state.countryList.push({"key":val["0"], "value":val["0"], "text":val[0].replace("_cases", "")});
-                    });
-                    if (this.state.countryList !== []){
-                        this.setState({
-                            "selectedCountry": this.state.countryList[0].value
-                        },()=> this.handleMapDataRequest());
-                        // console.log(this.state.countryList[0].value)
-                    }
-                },
-                (error) => {}
-            );
+        this.handleMapDataRequest();
+    //     fetch("https://app.katanaml.io/katana-ml/api/v1.0/forecast/covid19/countries")
+    //         .then(res => res.json())
+    //         .then(
+    //             (result) => {
+    //                 result.map((val)=>{
+    //                     this.state.countryList.push({"key":val["0"], "value":val["0"], "text":val[0].replace("_cases", "")});
+    //                 });
+    //                 if (this.state.countryList !== []){
+    //                     this.setState({
+    //                         "selectedCountry": this.state.countryList[0].value
+    //                     },()=> this.handleMapDataRequest());
+    //                     // console.log(this.state.countryList[0].value)
+    //                 }
+    //             },
+    //             (error) => {}
+    //         );
     }
 
     handleMapDataRequest(){
@@ -116,21 +117,21 @@ class Visualization extends Component {
             );
     }
 
-    handleCountrySelect(e, {value}){
-        // console.log(value)
-        this.setState({
-            "selectedCountry":value,
-            "allData":[],
-            "worldSituationChartShow":false
-        }, ()=> this.handleMapDataRequest())
-    }
+    // handleCountrySelect(e, {value}){
+    //     // console.log(value)
+    //     this.setState({
+    //         "selectedCountry":value,
+    //         "allData":[],
+    //         "worldSituationChartShow":false
+    //     }, ()=> this.handleMapDataRequest())
+    // }
 
     render() {
         return (
             <div className="content">
                 <Grid fluid>
                     <Row>
-                        <Col md={4}>
+                        {/* <Col md={4}>
                             <Card
                                 content={
                                     <div>
@@ -146,8 +147,8 @@ class Visualization extends Component {
                                     </div>
                                 }
                             />
-                        </Col>
-                        <Col md={8}>
+                        </Col> */}
+                        <Col md={12}>
                             <Card
                                 content={
                                     <div className="ct-chart" style={{height:"100px"}}>
@@ -208,9 +209,9 @@ class Visualization extends Component {
                                                 rootProps={{ 'data-testid': '2' }}
                                             />
                                             :
-                                            <div style={{marginLeft:"40%", marginTop:"30%"}}>
+                                            <div style={{marginLeft:"50%", marginTop:"30%"}}>
                                                 <RingLoader
-                                                    size={60}
+                                                    size={80}
                                                     color={"#23DFBA"}
                                                     loading={true}
                                                 />

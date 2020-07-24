@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ChartistGraph from "react-chartist";
 import { Grid, Row, Col } from "react-bootstrap";
 import Calendar from "react-calendar";
+import Chart from "react-google-charts";
 
 import { StatsCard } from "../components/StatsCard/StatsCard.js";
 import {
@@ -19,6 +20,41 @@ import {
 import Card from "../components/Card/Card";
 
 class Dashboard extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      maskClearCount: 0,
+      maskMaskedCount: 0
+    }
+  }
+
+  componentDidMount(){
+    this.allDataRequest();
+  }
+
+  allDataRequest() {
+    fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/all-camera-data')
+      .then(response => response.json())
+      .then((data) => {
+        data.data.map((value) => {
+          if(value.mask_status === "clear"){
+            this.setState({
+              maskClearCount: this.state.maskClearCount+1
+            })
+          }
+          else if(value.mask_status === "masked"){
+            this.setState({
+              maskMaskedCount: this.state.maskMaskedCount+1
+            })
+          }
+        })
+      },
+      (error) => {
+        console.log(error)
+      })
+  }
+
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -67,22 +103,25 @@ class Dashboard extends Component {
             <Col md={4}>
               <Card
                     id="chartActivity"
-                    title="2014 Sales"
-                    category="All products including Taxes"
-                    stats="Data information certified"
-                    statsIcon="fa fa-check"
+                    title="Mask status"
+                    // category=""
+                    // stats=""
+                    // statsIcon="fa fa-check"
                     content={
-                      <div className="ct-chart">
-                        <ChartistGraph
-                          data={dataBar}
-                          type="Bar"
-                          options={optionsBar}
-                          responsiveOptions={responsiveBar}
+                      
+                      <div className="ct-chart" style={{height:"350px"}}>                
+                        
+                        <Chart
+                          chartType="PieChart"
+                          data={[["Mask Status", "Count"], ["Masked", this.state.maskMaskedCount], ["Clear", this.state.maskClearCount]]}
+                          options={pieOptions}
+                          graph_id="PieChart"
+                          width={"100%"}
+                          height={"100%"}
+                          legend_toggle
                         />
                       </div>
-                    }
-                    legend={
-                      <div className="legend">{this.createLegend(legendBar)}</div>
+                      
                     }
                   />
             </Col>
@@ -174,3 +213,39 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
+
+const pieOptions = {
+  title: "",
+  pieHole: 0.6,
+  slices: [
+    {
+      color: "#2BB673"
+    },
+    {
+      color: "#d91e48"
+    },
+    {
+      color: "#007fad"
+    },
+    {
+      color: "#e9a227"
+    }
+  ],
+  legend: {
+    position: "bottom",
+    alignment: "center",
+    textStyle: {
+      color: "233238",
+      fontSize: 16
+    }
+  },
+  tooltip: {
+    showColorCode: true
+  },
+  chartArea: {
+    left: 0,
+    top: 10,
+    width: "100%",
+    height: "80%"
+  }
+};

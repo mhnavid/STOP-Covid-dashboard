@@ -34,7 +34,7 @@ class Dashboard extends Component {
   }
 
   allDataRequest() {
-    fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/all-camera-data')
+    fetch('http://localhost:4000/api/all-camera-data')
       .then(response => response.json())
       .then((data) => {
         data.data.map((value) => {

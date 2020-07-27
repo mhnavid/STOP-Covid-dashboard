@@ -3,6 +3,7 @@ import ChartistGraph from "react-chartist";
 import { Grid, Row, Col } from "react-bootstrap";
 import Calendar from "react-calendar";
 import Chart from "react-google-charts";
+import moment from "moment";
 
 import { StatsCard } from "../components/StatsCard/StatsCard.js";
 import {
@@ -25,7 +26,11 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       maskClearCount: 0,
-      maskMaskedCount: 0
+      maskMaskedCount: 0,
+      maskChartCategoryText:"",
+      allData:[],
+      maskChartMessage:"Loading Data...",
+      selectedDate: new Date()
     }
   }
 
@@ -37,6 +42,10 @@ class Dashboard extends Component {
     fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/all-camera-data')
       .then(response => response.json())
       .then((data) => {
+        this.setState({
+          allData: data.data,
+          maskChartCategoryText:"Based on total Data"
+        });
         data.data.map((value) => {
           if(value.mask_status === "clear"){
             this.setState({
@@ -53,6 +62,40 @@ class Dashboard extends Component {
       (error) => {
         console.log(error)
       })
+  }
+
+  onDateChange = (date) => {
+    date = moment(date).format("YYYY-MM-DD")
+    this.setState({
+      selectedDate: date,
+      maskClearCount: 0,
+      maskMaskedCount: 0,
+      maskChartCategoryText: "Based on " + moment(date).format("MMM DD") +" data"
+    }, () => this.handleMaskDataByDate())
+  }
+
+  handleMaskDataByDate() {
+    let tempMaskClearCount = 0, tempMaskMaskedCount = 0;
+    this.state.allData.map((value) => {
+      if(value.date_time.split(' ')[0] === this.state.selectedDate.toString()){
+        console.log(this.state.maskClearCount)
+        if(value.mask_status === "clear"){
+          tempMaskClearCount += 1;
+        }
+        else if(value.mask_status === "masked"){
+          tempMaskMaskedCount += 1;
+        }
+      }
+    })
+    if(tempMaskClearCount === 0 && tempMaskMaskedCount === 0){
+      this.setState({ maskChartMessage: "No Data Found" })
+    } else {
+      this.setState({
+        maskClearCount: tempMaskClearCount,
+        maskMaskedCount: tempMaskMaskedCount
+      })
+    }
+    
   }
 
   createLegend(json) {
@@ -104,24 +147,29 @@ class Dashboard extends Component {
               <Card
                     id="chartActivity"
                     title="Mask status"
-                    // category=""
+                    category={this.state.maskChartCategoryText}
                     // stats=""
                     // statsIcon="fa fa-check"
                     content={
+                      <div>
+                        {(this.state.maskMaskedCount === 0 && this.state.maskClearCount === 0)?
                       
-                      <div className="ct-chart" style={{height:"350px"}}>                
-                        
-                        <Chart
-                          chartType="PieChart"
-                          data={[["Mask Status", "Count"], ["Masked", this.state.maskMaskedCount], ["Clear", this.state.maskClearCount]]}
-                          options={pieOptions}
-                          graph_id="PieChart"
-                          width={"100%"}
-                          height={"100%"}
-                          legend_toggle
-                        />
+                        <div>{this.state.maskChartMessage}</div>
+                          :
+                          <div className="ct-chart" style={{height:"350px"}}>  
+                            <Chart
+                              chartType="PieChart"
+                              loader={<div>Loading Chart</div>}
+                              data={[["Mask Status", "Count"], ["Masked", this.state.maskMaskedCount], ["Clear", this.state.maskClearCount]]}
+                              options={pieOptions}
+                              graph_id="PieChart"
+                              width={"100%"}
+                              height={"100%"}
+                              legend_toggle
+                            />
+                          </div>
+                        }
                       </div>
-                      
                     }
                   />
             </Col>
@@ -157,8 +205,9 @@ class Dashboard extends Component {
                     className="ct-chart ct-perfect-fourth"
                   >
                     <Calendar
-                        defaultValue={[new Date(2020, 6, 1), new Date(2020, 6, 20)]}
+                        // defaultValue={[new Date(2020, 6, 1), new Date(2020, 6, 20)]}
                         defaultView="month"
+                        onChange={this.onDateChange}
                     />
                   </div>
                 }

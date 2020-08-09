@@ -4,6 +4,8 @@ import { Grid, Row, Col } from "react-bootstrap";
 import Calendar from "react-calendar";
 import Chart from "react-google-charts";
 import moment from "moment";
+import RingLoader from "react-spinners/RingLoader";
+import PropagateLoader from 'react-spinners/PropagateLoader';
 
 import { StatsCard } from "../components/StatsCard/StatsCard.js";
 import {
@@ -29,6 +31,8 @@ class Dashboard extends Component {
       maskMaskedCount: 0,
       maskChartCategoryText:"",
       allData:[],
+      totalMasked:0,
+      totalNonMasked:0,
       maskChartMessage:"Loading Data...",
       selectedDate: new Date()
     }
@@ -49,12 +53,14 @@ class Dashboard extends Component {
         data.data.map((value) => {
           if(value.mask_status === "clear"){
             this.setState({
-              maskClearCount: this.state.maskClearCount+1
+              maskClearCount: this.state.maskClearCount+1,
+              totalMasked: this.state.totalMasked+1
             })
           }
           else if(value.mask_status === "masked"){
             this.setState({
-              maskMaskedCount: this.state.maskMaskedCount+1
+              maskMaskedCount: this.state.maskMaskedCount+1,
+              totalNonMasked: this.state.totalNonMasked+1,
             })
           }
         })
@@ -78,7 +84,6 @@ class Dashboard extends Component {
     let tempMaskClearCount = 0, tempMaskMaskedCount = 0;
     this.state.allData.map((value) => {
       if(value.date_time.split(' ')[0] === this.state.selectedDate.toString()){
-        console.log(this.state.maskClearCount)
         if(value.mask_status === "clear"){
           tempMaskClearCount += 1;
         }
@@ -117,33 +122,109 @@ class Dashboard extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-users text-warning" />}
                 statsText="TOTAL"
-                statsValue="35.560"
+                statsValue={this.state.allData.length}
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-graph3 text-success" />}
                 statsText="TOTAL MASKED"
-                statsValue="18.980"
+                statsValue={this.state.totalMasked}
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-users text-danger" />}
                 statsText="TOTAL NON MASKED"
-                statsValue="15,768"
+                statsValue={this.state.totalNonMasked}
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-refresh-2 text-primary" />}
                 statsText="TOTAL DISTANCING"
-                statsValue="100"
+                statsValue="0"
               />
             </Col>
           </Row>
           <Row>
-            <Col md={4}>
+          <Col md={12}>
+              <Card
+                  content={
+                      <div className="ct-chart" style={{height:"100px"}}>
+                          {(this.state.worldSituationData.length > 1)?
+                          <Chart
+                              width={'100%'}
+                              height={'100%'}
+                              chartType="BarChart"
+                              loader={<div>Loading Chart</div>}
+                              data={this.state.worldSituationData}
+                              options={{
+                                  title: 'CURRENT SITUATION',
+                                  chartArea: { width: '50%' },
+                                  isStacked: true,
+                                  hAxis: {
+                                      minValue: 0
+                                  },
+                                  vAxis: {
+                                      title: 'Total Countries',
+                                  },
+                              }}
+                              rootProps={{ 'data-testid': '1' }}
+                          />
+                          :
+                          <div style={{marginLeft:"40%"}}>
+                              <PropagateLoader
+                                  size={10}
+                                  color={"#23DFBA"}
+                                  loading={true}
+                              />
+                          </div>
+                          }
+                      </div>
+                      }
+                  />
+              </Col>
+          </Row>
+          <Row>
+              <Col md={12}>
+                  <Card
+                      id="chartActivity"
+                      content={
+                          <div className="ct-chart">
+                              {(this.state.worldSituationChartShow)?
+                                  <div style={{height:"500px"}}>
+                                  <Chart
+                                      width={'100%'}
+                                      height={'100%'}
+                                      chartType="Line"
+                                      loader={<div>Loading Chart</div>}
+                                      data={this.state.allData}
+                                      options={{
+                                          chart: {
+                                              title: 'katanaml covid19 data',
+                                              subtitle: this.state.selectedCountry+' Data'
+                                          }
+                                      }}
+
+                                      rootProps={{ 'data-testid': '2' }}
+                                  />
+                                  </div>
+                                  :
+                                  <div style={{marginLeft:"50%"}}>
+                                      <RingLoader
+                                          size={80}
+                                          color={"#23DFBA"}
+                                          loading={true}
+                                      />
+                                  </div>
+                              }
+                              
+                          </div>
+                      }
+                  />
+              </Col>
+            {/* <Col md={4}>
               <Card
                     id="chartActivity"
                     title="Mask status"
@@ -172,9 +253,9 @@ class Dashboard extends Component {
                       </div>
                     }
                   />
-            </Col>
-            <Col md={4}>
-              <Card
+            </Col> */}
+            {/* <Col md={4}> */}
+              {/* <Card
                   statsIcon="fa fa-clock-o"
                   title="Email Statistics"
                   category="Last Campaign Performance"
@@ -191,9 +272,9 @@ class Dashboard extends Component {
                   legend={
                     <div className="legend">{this.createLegend(legendPie)}</div>
                   }
-              />
-            </Col>
-            <Col md={4}>
+              /> */}
+            {/* </Col> */}
+            {/* <Col md={4}>
               <Card
                 // statsIcon="pe-7s-clock"
                 title="Calender"
@@ -212,7 +293,7 @@ class Dashboard extends Component {
                   </div>
                 }
               />
-            </Col>
+            </Col> */}
           </Row>
 
           {/*<Row>*/}

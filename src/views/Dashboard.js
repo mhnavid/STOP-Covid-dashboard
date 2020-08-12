@@ -21,6 +21,7 @@ import {
   legendBar
 } from "../variables/Variables.js";
 import Card from "../components/Card/Card";
+import CovidData from "./sub_views/CovidData/CovidData.js";
 
 class Dashboard extends Component {
 
@@ -148,82 +149,7 @@ class Dashboard extends Component {
             </Col>
           </Row>
           <Row>
-          <Col md={12}>
-              <Card
-                  content={
-                      <div className="ct-chart" style={{height:"100px"}}>
-                          {(this.state.worldSituationData.length > 1)?
-                          <Chart
-                              width={'100%'}
-                              height={'100%'}
-                              chartType="BarChart"
-                              loader={<div>Loading Chart</div>}
-                              data={this.state.worldSituationData}
-                              options={{
-                                  title: 'CURRENT SITUATION',
-                                  chartArea: { width: '50%' },
-                                  isStacked: true,
-                                  hAxis: {
-                                      minValue: 0
-                                  },
-                                  vAxis: {
-                                      title: 'Total Countries',
-                                  },
-                              }}
-                              rootProps={{ 'data-testid': '1' }}
-                          />
-                          :
-                          <div style={{marginLeft:"40%"}}>
-                              <PropagateLoader
-                                  size={10}
-                                  color={"#23DFBA"}
-                                  loading={true}
-                              />
-                          </div>
-                          }
-                      </div>
-                      }
-                  />
-              </Col>
-          </Row>
-          <Row>
-              <Col md={12}>
-                  <Card
-                      id="chartActivity"
-                      content={
-                          <div className="ct-chart">
-                              {(this.state.worldSituationChartShow)?
-                                  <div style={{height:"500px"}}>
-                                  <Chart
-                                      width={'100%'}
-                                      height={'100%'}
-                                      chartType="Line"
-                                      loader={<div>Loading Chart</div>}
-                                      data={this.state.allData}
-                                      options={{
-                                          chart: {
-                                              title: 'katanaml covid19 data',
-                                              subtitle: this.state.selectedCountry+' Data'
-                                          }
-                                      }}
-
-                                      rootProps={{ 'data-testid': '2' }}
-                                  />
-                                  </div>
-                                  :
-                                  <div style={{marginLeft:"50%"}}>
-                                      <RingLoader
-                                          size={80}
-                                          color={"#23DFBA"}
-                                          loading={true}
-                                      />
-                                  </div>
-                              }
-                              
-                          </div>
-                      }
-                  />
-              </Col>
+          
             {/* <Col md={4}>
               <Card
                     id="chartActivity"
@@ -336,6 +262,16 @@ class Dashboard extends Component {
           {/*    />*/}
           {/*  </Col>*/}
           {/*</Row>*/}
+
+          <Row>
+            <Card 
+              content={
+                <div>
+                  <CovidData />
+                </div>
+              }
+            />
+          </Row>
         </Grid>
       </div>
     );

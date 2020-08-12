@@ -2,6 +2,7 @@ import Dashboard from "./views/Dashboard";
 import Reports from "./views/Reports";
 import ImageBank from "./views/ImageBank";
 import Visualization from "./views/Visualization";
+import PredictiveAnalysis from "./views/PredictiveAnalysis";
 
 const dashboardRoutes = [
   {
@@ -32,6 +33,13 @@ const dashboardRoutes = [
     component: Visualization,
     layout: "/admin"
   },
+  {
+    path: "/predictive_analysis",
+    name: "Predictive Analysis",
+    icon: "pe-7s-display1",
+    component: PredictiveAnalysis,
+    layout: "/admin"
+  }
 ];
 
 export default dashboardRoutes;

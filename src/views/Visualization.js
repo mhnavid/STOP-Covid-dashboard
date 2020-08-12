@@ -1,122 +1,97 @@
 import React, {Component} from "react";
-import {Col, Grid, Row} from "react-bootstrap";
+import {Col, Grid, Row, ControlLabel, FormControl, FormGroup, Button} from "react-bootstrap";
 import moment from "moment";
 import Card from "../components/Card/Card";
 import Chart from "react-google-charts";
-import {Dropdown} from "semantic-ui-react";
 import RingLoader from "react-spinners/RingLoader";
 import PropagateLoader from 'react-spinners/PropagateLoader';
+import FormInputs from "../components/FormInputs/FormInputs";
 
 class Visualization extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            "countryList":[],
-            "selectedCountry":"Bangladesh_cases",
-            "allData":[],
-            "worldSituationData":[],
-            "worldSituationChartShow":false,
+            dataSourceDropDownValue: "1",
+            cameraList:[],
+            cameraDataFromDate:"",
+            cameraDataToDate:"",
+            selectedCamera:"0",
+            inputErrorMessage:"",
+            maskClearCount: 0,
+            maskMaskedCount: 0,
+            allCameraData: []
         }
     }
     componentDidMount() {
-        this.handleWorldSituationDataRequest();
-        this.handleMapDataRequest();
-    //     fetch("https://app.katanaml.io/katana-ml/api/v1.0/forecast/covid19/countries")
-    //         .then(res => res.json())
-    //         .then(
-    //             (result) => {
-    //                 result.map((val)=>{
-    //                     this.state.countryList.push({"key":val["0"], "value":val["0"], "text":val[0].replace("_cases", "")});
-    //                 });
-    //                 if (this.state.countryList !== []){
-    //                     this.setState({
-    //                         "selectedCountry": this.state.countryList[0].value
-    //                     },()=> this.handleMapDataRequest());
-    //                     // console.log(this.state.countryList[0].value)
-    //                 }
-    //             },
-    //             (error) => {}
-    //         );
+        this.handleCameraListRequest();
     }
 
-    handleMapDataRequest(){
-        this.setState({
-            "allData":[
-                [
-                    "Day",
-                    "yhat",
-                    "yhat_lower",
-                    "yhat_upper",
-                    "y",
-                    "y_hill",
-                    "y_hill_b1",
-                    "yhat_b1",
-                    "yhat_b1_lower",
-                    "yhat_b1_upper",
-                    "active_patients",
-                    "fastest_growth_day"
-                ]
-            ]
-        });
+    handleCameraListRequest() {
+        fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/find-all-camera')
+            .then(response => response.json())
+            .then((data) => {
+                data.data.map((camera)=>{
+                    this.setState({
+                        cameraList:[
+                            ...this.state.cameraList,
+                            camera.camera_id
+                        ]
+                    })
+                })
+                this.setState({
+                    cameraList:this.state.cameraList.sort()
+                })
+                
+                
+            },
+            (error) => {
+                console.log(error)
+            })
+    }
+
+    handleAllCameraDataRequest() {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                "country":this.state.selectedCountry
+                "camera":this.state.selectedCamera
             })
         };
-        fetch('https://app.katanaml.io/katana-ml/api/v1.0/forecast/covid19', requestOptions)
+
+        fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/details-by-camera', requestOptions)
             .then(response => response.json())
-            .then(data => data.map((val)=>{
+            .then((data) => {
                 this.setState({
-                    allData: [
-                        ...this.state.allData,
-                        [
-                            moment(val.ds).format('MMM D'),
-                            val.yhat,
-                            val.yhat_lower,
-                            val.yhat_upper,
-                            val.y,
-                            val.y_hill,
-                            val.y_hill_b1,
-                            val.yhat_b1,
-                            val.yhat_b1_lower,
-                            val.yhat_b1_upper,
-                            val.active_patients,
-                            val.fastest_growth_day
-                        ]
-                    ]
-                }, ()=> this.setState({
-                    "worldSituationChartShow":true
-                }));
-            }));
+                    allCameraData:data.data
+                }, () => this.handleDateWiseMaskStatusValues())
+            },
+            (error) => {
+                console.log(error)
+            })
     }
 
-    handleWorldSituationDataRequest(){
+    handleDateWiseMaskStatusValues() {
+        let dates = this.getDatesBetweenDates(this.state.cameraDataFromDate, this.state.cameraDataToDate);
+        let tempMaskClearCount = 0, tempMaskMaskedCount = 0;
+        for(let i = 0; i < dates.length; i++){
+            this.state.allCameraData.map((value)=> {
+                if(moment(dates[i]).format("YYYY-MM-DD") === moment(value.date_time.split(' ')[0]).format("YYYY-MM-DD")) {
+                    if(value.mask_status === "clear"){
+                        tempMaskClearCount += 1;
+                      }
+                      else if(value.mask_status === "masked"){
+                        tempMaskMaskedCount += 1;
+                      }
+                }
+            })
+        }
         this.setState({
-            "worldSituationData":[
-                ["Countries Total", "Countries Stabilized", "Countries Increasing"],
-            ]
-        });
-        fetch("https://app.katanaml.io/katana-ml/api/v1.0/forecast/covid19/stats")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    result.map((val)=>{
-                        this.setState({
-                            "worldSituationData":[
-                                ...this.state.worldSituationData,
-                                [val.countries_processed, val.countries_stabilized, val.countries_increasing]
-                            ]
-                        });
-
-                        // console.log(this.state.worldSituationData)
-                    });
-                },
-                (error) => {}
-            );
+            maskClearCount: tempMaskClearCount,
+            maskMaskedCount: tempMaskMaskedCount
+          })
+        
     }
-
+    
     // handleCountrySelect(e, {value}){
     //     // console.log(value)
     //     this.setState({
@@ -126,102 +101,160 @@ class Visualization extends Component {
     //     }, ()=> this.handleMapDataRequest())
     // }
 
+    handleDataSourceDropdown(e) {
+        this.setState({
+            dataSourceDropDownValue: e.target.value
+        })
+    }
+
+    handleCameraSelectDropdown(e) {
+        this.setState({
+            selectedCamera: e.target.value
+        })
+    }
+
+    handleCameraDataFromDate(e) {
+        this.setState({
+            cameraDataFromDate: new Date(e.target.value)
+        })
+    }
+
+    handleCameraDataToDate(e) {
+        this.setState({
+            cameraDataToDate: new Date(e.target.value)
+        })
+    }
+
+    handleGenerateResultButton() {
+        if(this.state.cameraDataFromDate === "") {
+            this.setState({ inputErrorMessage: "From date not selected." })
+        }
+        if(this.state.cameraDataToDate === "") {
+            this.setState({ inputErrorMessage: "To date not selected." })
+        }
+        else {
+            this.handleAllCameraDataRequest();
+        }
+    }
+
+    getDatesBetweenDates = (startDate, endDate) => {
+        let dates = []
+        //to avoid modifying the original date
+        const theDate = new Date(startDate)
+        while (theDate < endDate) {
+          dates = [...dates, new Date(theDate)]
+          theDate.setDate(theDate.getDate() + 1)
+        }
+        return dates;
+      }
+
     render() {
         return (
             <div className="content">
                 <Grid fluid>
                     <Row>
-                        {/* <Col md={4}>
+                        <Col>
                             <Card
-                                content={
+                                content= {
                                     <div>
-                                        <Dropdown
-                                            placeholder='Select Country'
-                                            fluid
-                                            search
-                                            selection
-                                            value={this.state.selectedCountry}
-                                            options={this.state.countryList}
-                                            onChange={this.handleCountrySelect.bind(this)}
-                                        />
-                                    </div>
-                                }
-                            />
-                        </Col> */}
-                        <Col md={12}>
-                            <Card
-                                content={
-                                    <div className="ct-chart" style={{height:"100px"}}>
-                                        {(this.state.worldSituationData.length > 1)?
-                                        <Chart
-                                            width={'100%'}
-                                            height={'100%'}
-                                            chartType="BarChart"
-                                            loader={<div>Loading Chart</div>}
-                                            data={this.state.worldSituationData}
-                                            options={{
-                                                title: 'CURRENT SITUATION',
-                                                chartArea: { width: '50%' },
-                                                isStacked: true,
-                                                hAxis: {
-                                                    minValue: 0
-                                                },
-                                                vAxis: {
-                                                    title: 'Total Countries',
-                                                },
-                                            }}
-                                            rootProps={{ 'data-testid': '1' }}
-                                        />
-                                        :
-                                        <div style={{marginLeft:"40%"}}>
-                                            <PropagateLoader
-                                                size={10}
-                                                color={"#23DFBA"}
-                                                loading={true}
-                                            />
-                                        </div>
-                                        }
-                                    </div>
-                                }
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={12}>
-                            <Card
-                                id="chartActivity"
-                                content={
-                                    <div className="ct-chart" style={{height:"500px"}}>
-                                        {(this.state.worldSituationChartShow)?
-                                            <Chart
-                                                width={'100%'}
-                                                height={'100%'}
-                                                chartType="Line"
-                                                loader={<div>Loading Chart</div>}
-                                                data={this.state.allData}
-                                                options={{
-                                                    chart: {
-                                                        title: 'katanaml covid19 data',
-                                                        subtitle: this.state.selectedCountry+' Data'
-                                                    }
-                                                }}
-
-                                                rootProps={{ 'data-testid': '2' }}
-                                            />
+                                        <Row>
+                                            <Col md={5}>
+                                                <FormGroup controlId="dataSourceSelect">
+                                                    <ControlLabel>Select</ControlLabel>
+                                                    <FormControl 
+                                                        componentClass="select" 
+                                                        placeholder="select"
+                                                        onChange={(e) => this.handleDataSourceDropdown(e)}>
+                                                        <option value="1">From Camera</option>
+                                                        <option value="2">From Location</option>
+                                                    </FormControl>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        {(this.state.dataSourceDropDownValue === "2")?
+                                            <div>Under development.</div> 
                                             :
-                                            <div style={{marginLeft:"50%", marginTop:"30%"}}>
-                                                <RingLoader
-                                                    size={80}
-                                                    color={"#23DFBA"}
-                                                    loading={true}
-                                                />
-                                            </div>
+                                            <Row>
+                                                <Col md={3}>
+                                                    <FormGroup controlId="dataSourceSelect">
+                                                        <ControlLabel>Select</ControlLabel>
+                                                        <FormControl 
+                                                            componentClass="select" 
+                                                            placeholder="select"
+                                                            onChange={(e) => this.handleCameraSelectDropdown(e)}>
+                                                            {
+                                                                this.state.cameraList.map((camera, key) => {
+                                                                return <option value={camera} key={key}>Camera {camera}</option>
+                                                                })
+                                                            }
+                                                        </FormControl>
+                                                    </FormGroup>
+                                                </Col>
+
+                                                <Col md={3}>
+                                                    <FormGroup>
+                                                        <ControlLabel>From Date</ControlLabel>
+                                                        <FormControl 
+                                                            type="date" 
+                                                            placeholder="From Date" 
+                                                            onChange={(e) => this.handleCameraDataFromDate(e)}/>
+                                                    </FormGroup>
+                                                </Col>
+
+                                                <Col md={3}>
+                                                    <FormGroup>
+                                                        <ControlLabel>To Date</ControlLabel>
+                                                        <FormControl 
+                                                            type="date" 
+                                                            placeholder="To Date" 
+                                                            onChange={(e) => this.handleCameraDataToDate(e)}/>
+                                                    </FormGroup>
+                                                </Col>
+
+                                                <Col md={3}>
+                                                    <br/>
+                                                    <Button bsStyle="warning btn-fill" type="submit" 
+                                                        onClick={() => this.handleGenerateResultButton()}>
+                                                        Generate Result
+                                                    </Button>
+                                                </Col>
+                                            </Row>
                                         }
                                         
                                     </div>
                                 }
                             />
                         </Col>
+                    </Row>
+                    
+                    <Row>
+                        {(this.state.maskMaskedCount === 0 && this.state.maskClearCount === 0)?
+                            
+                            <div></div>
+                            :
+                            <Card
+                                id="chartActivity"
+                                title="Mask status"
+                                // category={this.state.maskChartCategoryText}
+                                // stats=""
+                                // statsIcon="fa fa-check"
+                                content={
+                                    <div className="ct-chart" style={{height:"350px"}}>  
+                                        <Chart
+                                        chartType="PieChart"
+                                        loader={<div>Loading Chart</div>}
+                                        data={[["Mask Status", "Count"], ["Masked", this.state.maskMaskedCount], ["Clear", this.state.maskClearCount]]}
+                                        options={pieOptions}
+                                        graph_id="PieChart"
+                                        width={"100%"}
+                                        height={"100%"}
+                                        legend_toggle
+                                        />
+                                    </div>
+                                }
+                            />
+                        }
+                        
                     </Row>
                 </Grid>
             </div>
@@ -230,3 +263,41 @@ class Visualization extends Component {
 }
 
 export default Visualization;
+
+
+const pieOptions = {
+    title: "",
+    pieHole: 0.6,
+    slices: [
+      {
+        color: "#2BB673"
+      },
+      {
+        color: "#d91e48"
+      },
+      {
+        color: "#007fad"
+      },
+      {
+        color: "#e9a227"
+      }
+    ],
+    legend: {
+      position: "bottom",
+      alignment: "center",
+      textStyle: {
+        color: "233238",
+        fontSize: 16
+      }
+    },
+    tooltip: {
+      showColorCode: true
+    },
+    chartArea: {
+      left: 0,
+      top: 10,
+      width: "100%",
+      height: "80%"
+    }
+  };
+  

@@ -30,17 +30,12 @@ class PredictiveAnalysis extends Component {
             "allCaseData":[
                 [
                     "Day",
-                    "yhat",
-                    "yhat_lower",
-                    "yhat_upper",
-                    "y",
-                    "y_hill",
-                    "y_hill_b1",
-                    "yhat_b1",
-                    "yhat_b1_lower",
-                    "yhat_b1_upper",
-                    "active_patients",
-                    "fastest_growth_day"
+                    "Actual Infections",
+                    "Hill Education Forecast",
+                    "Hill Forecast Backtest",
+                    "Forecast Logistic Backtest",
+                    "Active Patients",
+                    "Fastest Growth Day"
                 ]
             ]
         });
@@ -55,19 +50,31 @@ class PredictiveAnalysis extends Component {
             .then(response => response.json())
             .then(data => data.map((val)=>{
                 this.setState({
-                  allCaseData: [
+                //   allCaseData: [
+                //         ...this.state.allCaseData,
+                //         [
+                //             moment(val.ds).format('MMM D'),
+                //             val.yhat,
+                //             val.yhat_lower,
+                //             val.yhat_upper,
+                //             val.y,
+                //             val.y_hill,
+                //             val.y_hill_b1,
+                //             val.yhat_b1,
+                //             val.yhat_b1_lower,
+                //             val.yhat_b1_upper,
+                //             val.active_patients,
+                //             val.fastest_growth_day
+                //         ]
+                //     ]
+                    allCaseData: [
                         ...this.state.allCaseData,
                         [
                             moment(val.ds).format('MMM D'),
-                            val.yhat,
-                            val.yhat_lower,
-                            val.yhat_upper,
                             val.y,
                             val.y_hill,
                             val.y_hill_b1,
-                            val.yhat_b1,
                             val.yhat_b1_lower,
-                            val.yhat_b1_upper,
                             val.active_patients,
                             val.fastest_growth_day
                         ]

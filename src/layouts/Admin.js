@@ -42,7 +42,7 @@ class Admin extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>HeadBlocks</b>
+          Welcome to <b>SIGMIND</b>
         </div>
       ),
       level: level,
@@ -117,7 +117,7 @@ class Admin extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          Welcome to <b>HeadBlocks</b>
+          Welcome to <b>SIGMIND</b>
         </div>
       ),
       level: level,

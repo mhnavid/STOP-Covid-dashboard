@@ -31,7 +31,7 @@ class PredictiveAnalysis extends Component {
                 [
                     "Day",
                     "Actual Infections",
-                    "Hill Education Forecast",
+                    "Hill Equation Forecast",
                     "Hill Forecast Backtest",
                     "Forecast Logistic Backtest",
                     "Active Patients",

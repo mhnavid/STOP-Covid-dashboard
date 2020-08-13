@@ -27,7 +27,7 @@ class Visualization extends Component {
     }
 
     handleCameraListRequest() {
-        fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/find-all-camera')
+        fetch('http://ec2-15-206-174-242.ap-south-1.compute.amazonaws.com:4000/api/find-all-camera')
             .then(response => response.json())
             .then((data) => {
                 data.data.map((camera)=>{
@@ -58,7 +58,7 @@ class Visualization extends Component {
             })
         };
 
-        fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/details-by-camera', requestOptions)
+        fetch('http://ec2-15-206-174-242.ap-south-1.compute.amazonaws.com:4000/api/details-by-camera', requestOptions)
             .then(response => response.json())
             .then((data) => {
                 this.setState({

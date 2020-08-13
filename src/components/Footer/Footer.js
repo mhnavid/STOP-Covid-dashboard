@@ -8,8 +8,8 @@ class Footer extends Component {
                 <Grid fluid>
                     <p className="copyright text-center">
                         &copy; {new Date().getFullYear()}{" "}
-                        <a href="">
-                            HeadBlocks
+                        <a href="https://sigmind.ai/" target="_blank">
+                            SIGMIND.ai
                         </a>
                     </p>
                 </Grid>

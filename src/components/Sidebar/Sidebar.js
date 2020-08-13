@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
 
-import logo from "../../assets/img/reactlogo.png";
+import logo from "../../assets/img/sigmind_logo.png";
 import ApplicationName from "../ApplicationName/ApplicationName";
 import AdminNavbarLinks from "../Navbars/AdminNavLinks";
 import {MenuItem, NavDropdown} from "react-bootstrap";
@@ -39,7 +39,7 @@ class Sidebar extends Component {
       >
         <div className="logo">
           <a
-            href=""
+            href="/"
             className="simple-text logo-mini"
           >
             <div className="logo-img">
@@ -47,10 +47,14 @@ class Sidebar extends Component {
             </div>
           </a>
           <a
-            href=""
+            href="/"
             className="simple-text logo-normal"
+            style={{fontWeight:"700"}}
           >
-            HeadBlocks
+            SIGMIND 
+            <span style={{fontWeight:"300"}}>
+              <small>.ai</small>
+            </span>
           </a>
         </div>
         <div className="sidebar-wrapper">

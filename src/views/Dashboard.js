@@ -44,7 +44,7 @@ class Dashboard extends Component {
   }
 
   allDataRequest() {
-    fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/all-camera-data')
+    fetch('http://ec2-15-206-174-242.ap-south-1.compute.amazonaws.com:4000/api/all-camera-data')
       .then(response => response.json())
       .then((data) => {
         this.setState({
@@ -104,49 +104,39 @@ class Dashboard extends Component {
     
   }
 
-  createLegend(json) {
-    var legend = [];
-    for (var i = 0; i < json["names"].length; i++) {
-      var type = "fa fa-circle text-" + json["types"][i];
-      legend.push(<i className={type} key={i} />);
-      legend.push(" ");
-      legend.push(json["names"][i]);
-    }
-    return legend;
-  }
   render() {
     return (
       <div className="content">
         <Grid fluid>
           <Row>
-            <Col lg={3} sm={6}>
+            <Col lg={4} md={4} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-users text-warning" />}
-                statsText="TOTAL"
+                statsText="Total Face Detected"
                 statsValue={this.state.allData.length}
               />
             </Col>
-            <Col lg={3} sm={6}>
+            <Col lg={4} md={4} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-graph3 text-success" />}
-                statsText="TOTAL MASKED"
+                statsText="Total Masked Faces"
                 statsValue={this.state.totalMasked}
               />
             </Col>
-            <Col lg={3} sm={6}>
+            <Col lg={4} md={4} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-users text-danger" />}
-                statsText="TOTAL NON MASKED"
+                statsText="Total Non Masked Faces"
                 statsValue={this.state.totalNonMasked}
               />
             </Col>
-            <Col lg={3} sm={6}>
+            {/* <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-refresh-2 text-primary" />}
                 statsText="TOTAL DISTANCING"
                 statsValue="0"
               />
-            </Col>
+            </Col> */}
           </Row>
           <Row>
           

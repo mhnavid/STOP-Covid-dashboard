@@ -28,7 +28,7 @@ class ImageBank extends Component{
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ district: district })
         };
-        fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/person-by-district', requestOptions)
+        fetch('http://ec2-15-206-174-242.ap-south-1.compute.amazonaws.com:4000/api/person-by-district', requestOptions)
             .then(response => response.json())
             .then(data => {
                 data.data.map((value) => {
@@ -51,7 +51,7 @@ class ImageBank extends Component{
     }
 
     getDataDivisionDistrictData() {
-        fetch('http://ec2-54-169-134-126.ap-southeast-1.compute.amazonaws.com:4000/api/division-district-data')
+        fetch('http://ec2-15-206-174-242.ap-south-1.compute.amazonaws.com:4000/api/division-district-data')
             .then(response => response.json())
             .then((data) => {
                 this.setState({

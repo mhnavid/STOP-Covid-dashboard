@@ -15,21 +15,26 @@ class Sidebar extends Component {
       collapse:false
     };
   }
+
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
+
   updateDimensions() {
     this.setState({ width: window.innerWidth });
   }
+
   componentDidMount() {
     this.updateDimensions();
     window.addEventListener("resize", this.updateDimensions.bind(this));
   }
+
   handleDropdown(){
     this.setState({
       collapse: !this.state.collapse
     });
   }
+  
   render() {
     return (
       <div

@@ -5,9 +5,18 @@ class CovidDataCard extends Component {
     render() {
         let cardValueStatus = "";
         if(this.props.cardValueStatusClass === "negative") {
-            cardValueStatus = <small style={{ color: "red" }}>(+{this.props.cardValueStatus})</small>
+            if(this.props.cardValueStatus < 0) {
+                cardValueStatus = <small style={{ color: "red" }}>(+{this.props.cardValueStatus})</small>
+            } else {
+                cardValueStatus = <small style={{ color: "red" }}>(+{this.props.cardValueStatus})</small>
+            }
         } else {
-            cardValueStatus = <small style={{ color: "green" }}>(+{this.props.cardValueStatus})</small>;
+            if(this.props.cardValueStatus < 0) {
+                cardValueStatus = <small style={{ color: "green" }}>({this.props.cardValueStatus})</small>;
+            } else {
+                cardValueStatus = <small style={{ color: "green" }}>(+{this.props.cardValueStatus})</small>;
+            }
+            
         }
         return (
             <div className="card card-stats">

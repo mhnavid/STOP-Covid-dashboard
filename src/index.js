@@ -14,12 +14,19 @@ import 'font-awesome/css/font-awesome.min.css';
 
 import AdminLayout from "./layouts/Admin.js";
 import './assets/css/style.css';
+import SignIn from "./views/SignIn";
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
+      <Route path="/signin" render={props => <SignIn {...props}/>}/>
       <Route path="/admin" render={props => <AdminLayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
+      {(window.sessionStorage.getItem("key"))?
+        <Redirect from="/" to="/admin/dashboard" />
+        :
+        <Redirect from="/" to="/signin" />
+      }
+    
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

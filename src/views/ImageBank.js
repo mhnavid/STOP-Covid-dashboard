@@ -37,7 +37,7 @@ class ImageBank extends Component{
                         images.push(
                             <Col md={3}>
                                 <div style={{marginBottom:"30px"}}>
-                                    <Image src={`data:image/jpeg;base64,${value.person}`} responsive rounded/>
+                                    <Image src={value.person} responsive rounded/>
                                 </div>
                             </Col>    
                         )

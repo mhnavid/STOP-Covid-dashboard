@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UserImage from '../../assets/img/faces/face-0.jpg';
+import { withRouter } from 'react-router-dom';
 import {
     Button,
     Image,
@@ -13,6 +14,16 @@ import {
 } from "react-bootstrap";
 
 class AdminNavbarLinks extends Component {
+    constructor(props) {
+        super(props);
+        this.signOutButtonClickHandle = this.signOutButtonClickHandle.bind(this);
+    }
+
+    signOutButtonClickHandle() {
+        sessionStorage.clear();
+        this.props.history.push('/signin');
+    }
+
     render() {
         const notification1 = (
             <div>
@@ -33,11 +44,11 @@ class AdminNavbarLinks extends Component {
 
         const popoverUserDetails = (
             <Popover id="popover-positioned-bottom" title="User details">
-                <div style={{width:"180px"}}>
+                <div style={{width:"180px", textAlign: "center"}}>
                     <p>
                         <span>System Admin</span>
                     </p>
-                    <Button bsStyle="danger">Log Out</Button>
+                    <Button bsStyle="danger" onClick={this.signOutButtonClickHandle}>SIGN OUT</Button>
                 </div>
             </Popover>
         );
@@ -83,4 +94,4 @@ class AdminNavbarLinks extends Component {
     }
 }
 
-export default AdminNavbarLinks;
+export default withRouter(AdminNavbarLinks);

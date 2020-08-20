@@ -10,6 +10,8 @@ import routes from "../routes.js";
 import AdminNavbar from "../components/Navbars/AdminNavbar";
 import Footer from "../components/Footer/Footer";
 
+import { Redirect } from "react-router-dom";
+
 class Admin extends Component {
   constructor(props) {
     super(props);
@@ -113,17 +115,19 @@ class Admin extends Component {
       default:
         break;
     }
-    _notificationSystem.addNotification({
-      title: <span data-notify="icon" className="pe-7s-gift" />,
-      message: (
-        <div>
-          Welcome to <b>SIGMIND</b>
-        </div>
-      ),
-      level: level,
-      position: "tr",
-      autoDismiss: 15
-    });
+    if(window.sessionStorage.getItem("key")) {
+      _notificationSystem.addNotification({
+        title: <span data-notify="icon" className="pe-7s-gift" />,
+        message: (
+          <div>
+            Welcome to <b>SIGMIND</b>
+          </div>
+        ),
+        level: level,
+        position: "tr",
+        autoDismiss: 15
+      });
+    }
   }
   componentDidUpdate(e) {
     if (
@@ -140,6 +144,9 @@ class Admin extends Component {
     }
   }
   render() {
+    if(!window.sessionStorage.getItem("key")) {
+      return <Redirect to="/" />
+    }
     return (
       <div className="wrapper">
         <NotificationSystem ref="notificationSystem" style={style} />

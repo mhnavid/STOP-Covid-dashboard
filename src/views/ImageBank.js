@@ -46,7 +46,6 @@ class ImageBank extends Component{
                         imageList: [this.state.imageList, images]
                     })
                 })
-                console.log(data.data)
             });
     }
 
@@ -58,9 +57,11 @@ class ImageBank extends Component{
                     allDivisionDistrict:data.data
                 })
                 data.data.map((value) => {
-                    this.setState({
-                        folderList: [...this.state.folderList, value.division]
-                    })
+                    if(!this.state.folderList.includes(value.division.trim())){
+                        this.setState({
+                            folderList: [...this.state.folderList, value.division]
+                        })
+                    }
                 })
             })
     }
@@ -79,13 +80,15 @@ class ImageBank extends Component{
     }
 
     getDistrictList(division) {
+        let districtList = [];
         for(let i = 0; i< this.state.allDivisionDistrict.length; i++){
             if (this.state.allDivisionDistrict[i].division === division){
-                this.setState({
-                    folderList: [...this.state.folderList, this.state.allDivisionDistrict[i].district]
-                })
+                districtList.push(this.state.allDivisionDistrict[i].district);
             }
         }
+        this.setState({
+            folderList: districtList
+        })
     }
 
     handleBackButtonClick(){

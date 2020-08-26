@@ -52,16 +52,15 @@ class Dashboard extends Component {
           maskChartCategoryText:"Based on total Data"
         });
         data.data.map((value) => {
-          if(value.mask_status === "clear"){
-            this.setState({
-              maskClearCount: this.state.maskClearCount+1,
-              totalMasked: this.state.totalMasked+1
-            })
-          }
-          else if(value.mask_status === "masked"){
+          if(value.mask_status === "masked"){
             this.setState({
               maskMaskedCount: this.state.maskMaskedCount+1,
-              totalNonMasked: this.state.totalNonMasked+1,
+              totalMasked: this.state.totalMasked+1,
+            })
+          } else {
+            this.setState({
+              maskClearCount: this.state.maskClearCount+1,
+              totalNonMasked: this.state.totalNonMasked+1
             })
           }
         })

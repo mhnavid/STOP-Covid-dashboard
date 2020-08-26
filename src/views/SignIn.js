@@ -45,7 +45,7 @@ class SignIn extends Component {
                 })
             };
     
-            fetch('http://localhost:4000/api/find-user', requestOptions)
+            fetch('http://ec2-15-206-174-242.ap-south-1.compute.amazonaws.com:4000/api/find-user', requestOptions)
                 .then(response => response.json())
                 .then((data) => {
                     if(data.error === false && data.user === true) {

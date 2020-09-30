@@ -3,6 +3,7 @@ import Reports from "./views/Reports";
 import ImageBank from "./views/ImageBank";
 import Visualization from "./views/Visualization";
 import PredictiveAnalysis from "./views/PredictiveAnalysis";
+import VideoFeeds from "./views/VideoFeeds";
 
 const dashboardRoutes = [
   {
@@ -38,6 +39,13 @@ const dashboardRoutes = [
     name: "Predictive Analysis",
     icon: "pe-7s-display1",
     component: PredictiveAnalysis,
+    layout: "/admin"
+  },
+  {
+    path: "/video_feeds",
+    name: "Video Feeds",
+    icon: "pe-7s-film",
+    component: VideoFeeds,
     layout: "/admin"
   }
 ];
